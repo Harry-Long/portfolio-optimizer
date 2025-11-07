@@ -1,0 +1,35 @@
+data:
+  source: stooq                                  # stooq | synthetic
+  start: 2018-01-01
+  end: null
+  price_file: null                               # optional override to load pre-saved prices
+  universe_file: data/universe.txt
+  fixed_positions_file: data/lock.csv
+
+portfolio:
+  optimization:
+    model: mean_variance
+    objective: max_sharpe
+    frequency: 252
+    risk_free_rate: 0.0
+    leverage: 1.0
+    long_only: true
+    weight_bounds: [0.0, 0.3]
+    guardrails:
+      max_volatility: 0.18
+      max_drawdown: 0.2 
+      min_return: 0.05
+      min_sharpe: 0.8
+  backtest:
+    enabled: true
+    method: walk_forward
+    rebalance_freq: Q
+    train_years: 3
+    test_years: 1
+    transaction_cost_bps: 5
+    risk_free_rate: 0.0
+
+reporting:
+  output_dir: output
+  weights_file: weights_optimized.csv
+  backtest_file: backtest.json

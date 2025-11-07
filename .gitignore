@@ -1,0 +1,13 @@
+# Generated caches & temporary files
+__pycache__/
+*.py[cod]
+
+# Data caches/output
+data/cache/
+output/
+
+# macOS artifacts
+.DS_Store
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
