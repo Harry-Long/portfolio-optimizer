@@ -1,0 +1,47 @@
+user:
+  id: sample_user
+
+data:
+  source: stooq                                  # options: stooq (default), synthetic
+  start: 2018-01-01
+  end: null
+  price_file: null                               # optional override to load pre-saved prices (CSV)
+  universe_file: data/universe.txt
+  fixed_positions_file: data/lock.csv
+
+portfolio:
+  optimization:
+    model: mean_variance                         # options: mean_variance (default), black_litterman, risk_parity, equal_weight
+    objective: max_sharpe                        # metadata label; recognised: max_sharpe, max_expected_utility, risk_parity, equal_weight
+    frequency: 252                               # trading days/year; default 252
+    risk_free_rate: 0.0                          # default 0.0
+    leverage: 1.0                                # total capital deployed; default 1.0
+    long_only: true                              # allow shorts when false
+    weight_bounds: [0.0, 0.3]                    # default [0, 1] for long-only if omitted
+    guardrails:                                  # optional risk constraints (mean-variance model)
+      max_volatility: 0.18                       # aliases: target_volatility
+      max_drawdown: 0.2                          # aliases: target_max_drawdown
+      min_return: 0.05                           # aliases: target_return, min_ann_return
+      min_sharpe: 0.8
+    black_litterman:                             # used only when model=black_litterman
+      tau: 0.05                                  # shrinkage; default 0.05
+      risk_aversion: 2.5                         # default 2.5 if omitted
+      market_caps: {}                            # optional dict of ticker:cap for market weights
+      absolute_views: {}                         # optional absolute return views, e.g. {AAPL: 0.12}
+      pi: {}                                     # optional prior returns vector overrides
+    risk_parity:                                 # placeholder for future RP-specific knobs
+      method: inverse_volatility
+    equal_weight: {}                             # reserved for future per-model settings
+  backtest:
+    enabled: true
+    method: walk_forward                         # options: in_sample, walk_forward
+    rebalance_freq: Q                            # pandas offset alias (M, Q, A, etc.)
+    train_years: 3
+    test_years: 1
+    transaction_cost_bps: 5
+    risk_free_rate: 0.0
+
+reporting:
+  output_dir: output
+  weights_file: weights_optimized.csv
+  backtest_file: backtest.json

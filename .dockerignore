@@ -1,0 +1,17 @@
+.git
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.swp
+.tox
+.mypy_cache
+.pytest_cache
+build
+.dist
+.eggs
+*.egg-info
+data/prices*
+output
+input
+to_be_processed
